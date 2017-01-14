@@ -58,7 +58,7 @@ module Etsy
       options.merge!(:require_secure => true)
       put("/listings/#{listing.id}", options)
     end
-    
+
     def self.destroy(listing, options = {})
       options.merge!(:require_secure => true)
       delete("/listings/#{listing.id}", options)
@@ -119,6 +119,12 @@ module Etsy
     def self.find_all_active_by_category(category, options = {})
       options[:category] = category
       get_all("/listings/active", options)
+    end
+
+    #Retrieve listing shipping information
+    #
+    def self.shipping_info_entries(listing)
+      get("/listings/#{listing.id}/shipping/info")
     end
 
     # The collection of images associated with this listing.
@@ -263,7 +269,7 @@ module Etsy
     end
 
     private
-    
+
     def oauth
       oauth = (token && secret) ? {:access_token => token, :access_secret => secret} : {}
     end
