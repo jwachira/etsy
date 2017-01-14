@@ -49,6 +49,7 @@ module Etsy
                :original_creation_tsz, :style, :category_path
 
     association :image, :from => 'Images'
+    association :shipping_info, :from => 'ShippingInfo'
 
     def self.create(options = {})
       options.merge!(:require_secure => true)
@@ -122,16 +123,14 @@ module Etsy
       get_all("/listings/active", options)
     end
 
-    #Retrieve listing shipping information
-    #
-    def self.shipping_info_entries(listing)
-      get("/listings/#{listing.id}/shipping/info")
-    end
-
     # The collection of images associated with this listing.
     #
     def images
       @images ||= Image.find_all_by_listing_id(id, oauth)
+    end
+
+    def shipping_info
+      @shipping_info ||= ShippingInfo.find_all_by_listing_id(id)
     end
 
     # The primary image for this listing.
