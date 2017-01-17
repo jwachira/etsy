@@ -66,9 +66,8 @@ module Etsy
 
     # The collection of listings associated with this shop
     #
-    def listings(state = nil, options = {})
-      state = state ? {:state => state} : {}
-      Listing.find_all_by_shop_id(id, state.merge(options).merge(oauth))
+    def listings(options = {})
+      Listing.find_all_by_shop_id(id, options.merge(oauth))
     end
 
     def sections
